@@ -11,6 +11,6 @@ before_script:
 - node_modules/.bin/webdriver-manager update
 - sleep 1
 script:
-- py.test tests_backend/
+- py.test backend_tests/
 - node_modules/karma/bin/karma start karma.conf.js  --single-run --firefox
 - node_modules/protractor/bin/protractor e2e-tests/protractor.conf.js

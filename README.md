@@ -1,4 +1,4 @@
-# Monkey App
+# Monkey App [![Build Status](https://travis-ci.org/Xmary/monkeyApp.svg?branch=master)](https://travis-ci.org/Xmary/monkeyApp)
 
 ## Description
 
