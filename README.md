@@ -15,6 +15,8 @@ Server and client parts are not separate, so that AngularJS application is mostl
 
 ## Testing
 
+Test automation with [Travis CI](https://travis-ci.org). Configured in .travis.yml file. 
+
 ### Backend unit testing
 
 For backend unit testing [pytest](http://pytest.org/latest/) testing tool and [pytest-flask](http://pytest-flask.readthedocs.org) plugin are used. Tests could be found in /backend_tests folder and tests' configuration in conftest.py file in the root folder. Tests could be run using command 
