@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv
+
+# Logs
+logs
+*.log
+
+# Temporary
+tmp
+*~
+
+# Modules and components
+node_modules
+monkeyApp/static/bower_components
+
+# OS files
+.DS_Store

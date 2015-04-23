@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="MonkeyApp" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title>Monkey App</title>
+
+  <!-- STYLES -->
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="static/app.css">
+
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div ui-view></div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <!-- Angular components -->
+  <!-- TODO: MINIMIZE IN PRODUCTION -->
+  <script src="static/bower_components/angular/angular.js"></script>
+  <script src="static/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+  <!-- Custom JS -->
+  <script src="static/app.js"></script>
+  <!-- Controllers -->
+  <script src="static/home/home.js"></script>
+
+
+</body>
+</html>
