@@ -10,6 +10,7 @@
 * [Github](https://github.com) for version control
 
 ### Structure of the code
+
 Server and client parts are not separate, so that AngularJS application is mostly inside /static folder. /template folder contains only index.html file, which contains ngApp directive.
 
 

@@ -1,3 +1,99 @@
-<div ng-controller="HomeCtrl">
-  <p>This is Home page</p>
+<div class="row-fluid" ng-controller="HomeCtrl">
+
+  <!-- Add new monkey -->
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Add new monkey to this jungle</h3>
+      </div>
+
+      <!-- Form for adding new monkey -->
+      <div class="panel-body">
+        <div name="creationForm" ng-show="addition">
+          <!-- Alert, if error from backend -->
+          <div name="errorMessage" ng-show="addError" class="alert alert-danger" role="alert">
+            <!-- error message -->
+            {{errorMessage}}
+          </div>
+
+          <div name="infoMessage" ng-hide="addError" class="alert alert-info" role="alert">
+            Please fill in at least name and email fields.
+          </div>
+
+          <form name="addMonkeyForm" ng-submit="add_new()" novalidate>
+
+            <!-- Username -->
+            <div class="form-group" ng-class="{'has-error':addMonkeyForm.name.$invalid && !addMonkeyForm.name.$pristine }">
+              <input type="text" class="form-control" placeholder="Name" name="name" ng-model="addmonkey.username" ng-minlength="4" ng-maxlength="80" ng-required="true">
+              <p ng-show="addMonkeyForm.name.$invalid && !addMonkeyForm.name.$pristine" class="help-block">Name is missing, too short or too long. Username should be 4 - 80 characters long.</p>
+            </div>
+            
+            <!-- Email -->
+            <div class="form-group" ng-class="{'has-error':addMonkeyForm.email.$invalid && !addMonkeyForm.email.$pristine}">
+              <input type="email" ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/" class="form-control" placeholder="Email" name="email" ng-model="addmonkey.email" ng-maxlength="255" ng-required="true">
+              <p ng-show="addMonkeyForm.email.$invalid && !addMonkeyForm.email.$pristine" class="help-block">Email is not valid.</p>
+              <p ng-show="emailused && !addMonkeyForm.email.$pristine" class="help-block">Email is already used.</p>
+            </div>
+            
+            <!-- Age -->
+            <div class="form-group" ng-class="{'has-error':addMonkeyForm.age.$invalid && !addMonkeyForm.age.$pristine}">
+              <input type="number" class="form-control" id="newAge" placeholder="Age" name="age" min="0" max="99" ng-model="addmonkey.age" ng-required>
+              <p ng-show="addMonkeyForm.age.$invalid && !addMonkeyForm.age.$pristine" class="help-block">Age is missing or is not a number.</p>
+            </div>
+         
+            <!-- Species -->
+            <div class="form-group">
+              <span  class="nullable">
+                <select ng-model="addmonkey.species" class="form-control"
+                  ng-options="item.id as item.name for item in species">
+                </select>
+              </span>
+            </div>
+
+            <input type="submit" name="addButton" class="btn btn-primary btn-block" value="Add new monkey"/>
+
+          </form>
+        </div>
+        <!-- End of div, with form -->
+
+        <div name="successfulCreation" ng-hide="addition">
+          <p class="text-success">New {{added.species}} named {{added.username}} successfully added to the jungle!</p>
+          <button name="addAnother" type="button" class="btn btn-primary btn-block" ng-click="go_to_add()">Add another monkey</button>
+          <button type="button" class="btn btn-default btn-block" ng-click="check_profile()">Check profile of added monkey</button>
+
+        </div>
+        <!-- End of div with button and link -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Find monkey -->
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Find monkey in the jungle</h3>
+      </div>
+
+      <!-- Search field for finding monkey -->
+      <div class="panel-body">
+        Panel content
+      </div>
+    </div>
+  </div>
+
+  <!-- All monkeys -->
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">See all monkeys in the jungle</h3>
+      </div>
+
+      <!-- Link to Jungle page -->
+      <div class="panel-body">
+        Panel content
+      </div>
+    </div>
+  </div>
+
 </div>

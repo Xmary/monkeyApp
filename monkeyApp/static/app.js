@@ -15,4 +15,14 @@ var MonkeyApp = angular.module('MonkeyApp', [
       templateUrl: 'static/home/home.html',
       controller: 'HomeCtrl'
     })
+    .state('single', {
+      url: '/monkey/:email',
+      templateUrl: 'static/single/single.html',
+      controller: 'SingleCtrl'
+    })
+    .state('list', {
+      url: '/jungle',
+      templateUrl: 'static/list/list.html',
+      controller: 'ListCtrl'
+    })
 }]);
