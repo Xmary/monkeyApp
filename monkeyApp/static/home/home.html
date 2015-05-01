@@ -12,11 +12,11 @@
         <div name="creationForm" ng-show="addition">
           <!-- Alert, if error from backend -->
           <div name="errorMessage" ng-show="addError" class="alert alert-danger" role="alert">
-            <!-- error message -->
             {{errorMessage}}
           </div>
-
-          <div name="infoMessage" ng-hide="addError" class="alert alert-info" role="alert">
+          
+          <!-- Alert, if user doesn't fill in required name and email fields -->
+          <div name="infoMessage" ng-show="addInfo" class="alert alert-info" role="alert">
             Please fill in at least name and email fields.
           </div>
 
@@ -24,27 +24,27 @@
 
             <!-- Username -->
             <div class="form-group" ng-class="{'has-error':addMonkeyForm.name.$invalid && !addMonkeyForm.name.$pristine }">
-              <input type="text" class="form-control" placeholder="Name" name="name" ng-model="addmonkey.username" ng-minlength="4" ng-maxlength="80" ng-required="true">
+              <input type="text" class="form-control" placeholder="Name" name="name" ng-model="addmonkey.username" ng-model-options="{updateOn: 'blur'}" ng-minlength="4" ng-maxlength="80" ng-required="true">
               <p ng-show="addMonkeyForm.name.$invalid && !addMonkeyForm.name.$pristine" class="help-block">Name is missing, too short or too long. Username should be 4 - 80 characters long.</p>
             </div>
             
             <!-- Email -->
             <div class="form-group" ng-class="{'has-error':addMonkeyForm.email.$invalid && !addMonkeyForm.email.$pristine}">
-              <input type="email" ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/" class="form-control" placeholder="Email" name="email" ng-model="addmonkey.email" ng-maxlength="255" ng-required="true">
+              <input type="email" ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/" class="form-control" placeholder="Email" name="email" ng-model="addmonkey.email" ng-model-options="{updateOn: 'blur'}" ng-maxlength="255" ng-required="true">
               <p ng-show="addMonkeyForm.email.$invalid && !addMonkeyForm.email.$pristine" class="help-block">Email is not valid.</p>
               <p ng-show="emailused && !addMonkeyForm.email.$pristine" class="help-block">Email is already used.</p>
             </div>
             
             <!-- Age -->
             <div class="form-group" ng-class="{'has-error':addMonkeyForm.age.$invalid && !addMonkeyForm.age.$pristine}">
-              <input type="number" class="form-control" id="newAge" placeholder="Age" name="age" min="0" max="99" ng-model="addmonkey.age" ng-required>
+              <input type="number" class="form-control" id="newAge" placeholder="Age" name="age" min="0" max="99" ng-model="addmonkey.age" ng-model-options="{updateOn: 'blur'}" ng-required>
               <p ng-show="addMonkeyForm.age.$invalid && !addMonkeyForm.age.$pristine" class="help-block">Age is missing or is not a number.</p>
             </div>
          
             <!-- Species -->
             <div class="form-group">
               <span  class="nullable">
-                <select ng-model="addmonkey.species" class="form-control"
+                <select ng-model="addmonkey.species" name="species" class="form-control"
                   ng-options="item.id as item.name for item in species">
                 </select>
               </span>
@@ -59,7 +59,7 @@
         <div name="successfulCreation" ng-hide="addition">
           <p class="text-success">New {{added.species}} named {{added.username}} successfully added to the jungle!</p>
           <button name="addAnother" type="button" class="btn btn-primary btn-block" ng-click="go_to_add()">Add another monkey</button>
-          <button type="button" class="btn btn-default btn-block" ng-click="check_profile()">Check profile of added monkey</button>
+          <button type="button" name="checkProfile" class="btn btn-default btn-block" ng-click="check_profile()">Check profile of added monkey</button>
 
         </div>
         <!-- End of div with button and link -->

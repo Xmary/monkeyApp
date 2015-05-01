@@ -1,12 +1,13 @@
 'use strict';
 
-describe('MonkeyApp module', function() {
+describe('MonkeyApp module, HomeCtrl', function() {
 
-  var HomeCtrl, $controller, scope, $httpBackend, MonkeyService, $q, deferred, MonkeyServiceError, errorScope;
+  var HomeCtrl, $controller, scope, $httpBackend, MonkeyService;
+  var $q, deferred, MonkeyServiceError, errorScope;
 
   beforeEach(module('MonkeyApp'));
 
-  describe('HomeCtrl', function() {
+  describe('Add new monkey -functionality, when successful response', function() {
 
     beforeEach(function() {
       inject(function($injector) {
@@ -27,13 +28,21 @@ describe('MonkeyApp module', function() {
       $httpBackend.expectGET('static/home/home.html').respond(204, '');
 
       HomeCtrl = $controller('HomeCtrl', {'$scope': scope, 'MonkeyService': MonkeyService});
+
+    });
+
+    afterEach(function() {
+     $httpBackend.verifyNoOutstandingExpectation();
+     $httpBackend.verifyNoOutstandingRequest();
     });
     
     it('should be defined', function() {
       expect(HomeCtrl).toBeDefined();
+      $httpBackend.flush();
     });
 
     it('should define the initial scope', function() {
+      $httpBackend.flush();
       expect(scope.addmonkey).toBeDefined();
       expect(scope.addmonkey).toMatch({username: '', email: '', age: 0, species: 0});
       expect(scope.addition).toBeTruthy();
@@ -42,11 +51,13 @@ describe('MonkeyApp module', function() {
     });
 
     it('should call MonkeyService.addnew inside add_new function, and return promise', function() {
-      
+      $httpBackend.flush();
       scope.addMonkeyForm = {};
       scope.addMonkeyForm.name = {};
+      scope.addMonkeyForm.email = {};
       scope.addMonkeyForm.$valid = true;
       scope.addMonkeyForm.name.$dirty = true;
+      scope.addMonkeyForm.email.$dirty = true;
       scope.addmonkey = {
         username: 'testMonkey',
         email: 'test@email.com',
@@ -61,14 +72,17 @@ describe('MonkeyApp module', function() {
     });
 
     it('should define scope.added and make some other changes to scope, if successful response', function() {
+      $httpBackend.flush();
       var promise = MonkeyService.addnew();
       expect(promise).toMatch(deferred.promise);
 
       //Set up scope for successful response
       scope.addMonkeyForm = {};
       scope.addMonkeyForm.name = {};
+      scope.addMonkeyForm.email = {};
       scope.addMonkeyForm.$valid = true;
       scope.addMonkeyForm.name.$dirty = true;
+      scope.addMonkeyForm.email.$dirty = true;
 
       scope.addmonkey = {
         username: 'testMonkey',
@@ -91,7 +105,7 @@ describe('MonkeyApp module', function() {
     });
   });
 
-  describe('HomeCtrl when error message from server, ', function() {
+  describe('Add new monkey -functionality, when error message from server, ', function() {
 
     beforeEach(function() {
       inject(function($injector) {
@@ -115,14 +129,16 @@ describe('MonkeyApp module', function() {
       HomeCtrl = $controller('HomeCtrl', {'$scope': errorScope, 'MonkeyService': MonkeyServiceError});
     });
 
-    it('should make some changes to scope', function() {
+    it('should make some changes to scope, if unsuccessful response', function() {
       var promise = MonkeyServiceError.addnew();
       expect(promise).toMatch(deferred.promise);
 
       errorScope.addMonkeyForm = {};
       errorScope.addMonkeyForm.name = {};
+      errorScope.addMonkeyForm.email = {};
       errorScope.addMonkeyForm.$valid = true;
       errorScope.addMonkeyForm.name.$dirty = true;
+      errorScope.addMonkeyForm.email.$dirty = true;
       errorScope.addmonkey = {
         username: 'testMonkey',
         email: 'test@f.f',

@@ -11,8 +11,11 @@ MonkeyApp.controller('HomeCtrl', [
       species: 0
     };
 
-    //if add new monkey -template is visible or not
+    //If add new monkey -template is visible or not
     $scope.addition = true;
+
+    //Info message about name and email required not visible at the beginning
+    $scope.addInfo = false;
 
     //Species for Choose species dropdown
     $scope.species = [
@@ -33,24 +36,34 @@ MonkeyApp.controller('HomeCtrl', [
 
     //to add monkey 
     $scope.add_new = function() {
-      //TODO: use later
+      
       $scope.emailused = false;
       $scope.addError = false;
       $scope.errorMessage = '';
 
+      //show infoMessage with requirements, if user try 
+      //to add monkey without name and email
+      if($scope.addMonkeyForm.name.$pristine || $scope.addMonkeyForm.email.$pristine) {
+        $scope.addInfo = true;
+      };
+
+      //if form is valid, try to add monkey to database
       if($scope.addMonkeyForm.$valid && $scope.addMonkeyForm.name.$dirty) {
+        $scope.addInfo = false;
         MonkeyService.addnew($scope.addmonkey).then(function(response) {
 
-          //$scope.added is needed for the next template shown after successful monkey creation
-          $scope.added.username = $scope.addmonkey.username;
-          $scope.added.email = $scope.addmonkey.email;
+          //$scope.added is needed for the next template shown 
+          //after successful monkey creation
+          $scope.added.username = angular.copy($scope.addmonkey.username);
+          $scope.added.email = angular.copy($scope.addmonkey.email);
+
           for (var i = 0; i < $scope.species.length; i++) {
             if ($scope.species[i].id == $scope.addmonkey.species) {
               if($scope.species[i].id == 0) {
                 $scope.added.species = 'animal, which species is unknown,';
               }
               else {
-                $scope.added.species = $scope.species[i].name;
+                $scope.added.species = angular.copy($scope.species[i].name);
               }
             }
           };
@@ -63,20 +76,23 @@ MonkeyApp.controller('HomeCtrl', [
             age: 0,
             species: 0
           };
+
+          //creation form is hided from user
           $scope.addition = false;
-          //$state.go('home');
           
         }, function(response) {
           $scope.addition = true;
           if (response.data !== undefined && response.data.message == 'Add Monkey Form is invalid') {
-            console.log(response.data.errors);
+
             if(response.data.errors.email[0] == 'Already exists.') {
               $scope.errorMessage = 'Monkey with this email is already added to jungle. Use another email.';
               $scope.addError = true;
             }
+
             else if (response.data.errors.email[0] == 'Invalid email address.') {
               $scope.emailused = true;
             }
+            //for other possible errors
             else {
               $scope.errorMessage = 'Something went wrong. Please, try again.';
               $scope.addError = true;
@@ -88,10 +104,12 @@ MonkeyApp.controller('HomeCtrl', [
     };
     //end of add_new
 
+    //shows creation form for another monkey
     $scope.go_to_add = function() {
       $scope.addMonkeyForm.$setPristine();
       $scope.addError = false;
       $scope.emailused = false;
+      $scope.addInfo = false;
       $scope.added = {
         username: '',
         species: '' 
@@ -102,9 +120,11 @@ MonkeyApp.controller('HomeCtrl', [
     };
     //end of go_to_add
 
+    //shows profile page of monkey created just before
     $scope.check_profile = function() {
       $scope.addError = false;
       $scope.emailused = false;
+      $scope.addInfo = false;
 
       $state.go('single', {email: $scope.added.email});
     };

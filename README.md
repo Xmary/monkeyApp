@@ -13,6 +13,8 @@
 
 Server and client parts are not separate, so that AngularJS application is mostly inside /static folder. /template folder contains only index.html file, which contains ngApp directive.
 
+Frontend code is placed in different folders based on functionality (although the only angular module is MonkeyApp). Each folder (home, single and list) contains corresponding template, controller and controller's tests. 
+
 
 ## Testing
 

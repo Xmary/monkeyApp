@@ -10,6 +10,7 @@ module.exports = function(config){
       'static/app.js',
       'static/components/**/*.js',
       'static/home/*.js',
+      'static/single/*.js',
     ],
 
     autoWatch : true,
