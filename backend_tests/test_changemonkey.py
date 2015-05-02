@@ -14,7 +14,9 @@ def test_change_missing_monkey(client):
                       data=json.dumps({'username': 'testGorilla',
                                        'email': 'missing@email.com',
                                        'age': 3,
-                                       'species': 4}),
+                                       'species': 4,
+                                       'bestfriend_email': None,
+                                       'friends_emails': []}),
                       content_type='application/json')
     assert res.status_code == 404
     assert res.json == {'message': 'Monkey with this email is not registered'}
@@ -33,12 +35,15 @@ def test_change_monkey(client):
                       data=json.dumps({'username': 'EditedMonkey',
                                        'email': 'edit@email.com',
                                        'age': 2,
-                                       'species': 3}),
+                                       'species': 3,
+                                       'bestfriend_email': None,
+                                       'friends_emails': []}),
                       content_type='application/json')
     monkey_data = Monkey.query.filter_by(email='edit@email.com').first()
     assert monkey_data.username == 'EditedMonkey'
     assert monkey_data.email == 'edit@email.com'
     assert monkey_data.age == 2
     assert monkey_data.species == 3
+    assert monkey_data.bestfriend_id is None
     assert res.status_code == 204
     assert res.data == b''

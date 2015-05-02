@@ -2,7 +2,13 @@ from flask import session
 from flask.ext.wtf import Form
 from wtforms_alchemy import model_form_factory, Unique, SelectField
 from wtforms import TextField
-from wtforms.validators import DataRequired, Length, Email
+from wtforms.validators import (
+    DataRequired,
+    Length,
+    Email,
+    ValidationError,
+    optional
+)
 
 from monkeyApp.models import Monkey
 from monkeyApp.extensions import db
@@ -37,3 +43,9 @@ class AddMonkeyForm(ModelForm):
 
     species = SelectField('species', coerce=int,
                           choices=[(i, i) for i in range(0, 6)])
+
+    bestfriend_id = TextField('bestfriend_id', validators=[optional()])
+
+    def validate_bestfriend_id(self, field):
+        if field.data and not Monkey.query.get(field.data):
+            raise ValidationError('Best friend not found')
