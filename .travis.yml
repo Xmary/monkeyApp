@@ -1,6 +1,6 @@
 language: python
 python:
-- "3.4"
+- '3.4'
 before_script:
 - psql -c 'create database monkeyapp;' -U postgres
 - export CHROME_BIN='chromium-browser'
@@ -16,3 +16,8 @@ script:
 - py.test backend_tests/
 - node_modules/karma/bin/karma start karma.conf.js  --single-run --firefox
 - node_modules/protractor/bin/protractor e2e-tests/protractor.conf.js
+deploy:
+  provider: heroku
+  app: monkey-jungle
+  api_key:
+    secure: jOgu9JKr+AVds5Klnzoi+omzG8WuXn6hnvRPjeP3xonGOGBYdaANWmrF+mRXm1w64st9GMb8bWnQOyS8OKLqfJqHocwy7cK6x4QAyLTZhXoNnWGtEgA4Y54sUCMgh9I2HZkfidexWRovYx7FGky9eNyxxi1NpaEJKC0misVlE6Q=
