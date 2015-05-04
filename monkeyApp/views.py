@@ -178,13 +178,16 @@ def find_all():
         number_of_friends = len(monkey.all_friends)
         if monkey.bestfriend:
             bestfriend_email = monkey.bestfriend.email
+            bestfriend_name = monkey.bestfriend.username
         else:
             bestfriend_email = None
+            bestfriend_name = None
         monkey_res = {'username': monkey.username,
                       'email': monkey.email,
                       'species': monkey.species,
                       'bestfriend_email': bestfriend_email,
-                      'number_of_friends': number_of_friends
+                      'number_of_friends': number_of_friends,
+                      'bestfriend_name': bestfriend_name
                       }
         jungle_res.append(monkey_res)
     return jungle_res

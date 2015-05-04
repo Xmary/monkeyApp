@@ -7,7 +7,7 @@ MonkeyApp.controller('HomeCtrl', [
     $scope.addmonkey = {
       username: '',
       email: '',
-      age: 0,
+      age: '',
       species: 0
     };
 
@@ -50,6 +50,10 @@ MonkeyApp.controller('HomeCtrl', [
       //if form is valid, try to add monkey to database
       if($scope.addMonkeyForm.$valid && $scope.addMonkeyForm.name.$dirty) {
         $scope.addInfo = false;
+        
+        if ($scope.addmonkey.age == '' || $scope.addmonkey.age == null) {
+          $scope.addmonkey.age = 0;
+        }
         MonkeyService.addnew($scope.addmonkey).then(function(response) {
 
           //$scope.added is needed for the next template shown 
@@ -73,7 +77,7 @@ MonkeyApp.controller('HomeCtrl', [
           $scope.addmonkey = {
             username: '',
             email: '',
-            age: 0,
+            age: '',
             species: 0
           };
 

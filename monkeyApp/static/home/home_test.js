@@ -44,7 +44,7 @@ describe('MonkeyApp module, HomeCtrl', function() {
     it('should define the initial scope', function() {
       $httpBackend.flush();
       expect(scope.addmonkey).toBeDefined();
-      expect(scope.addmonkey).toMatch({username: '', email: '', age: 0, species: 0});
+      expect(scope.addmonkey).toMatch({username: '', email: '', age: '', species: 0});
       expect(scope.addition).toBeTruthy();
       expect(scope.species).toMatch({ id: 0, name: '-- Choose species --'});
       expect(scope.added).toBeDefined();

@@ -17,6 +17,22 @@ MonkeyApp.service('MonkeyService', ['$http', function ($http) {
     return $http.delete('/deleteMonkey', {'params': {'email': info}});
   }
 
+  session.addfriend = function(info) {
+    return $http.post('/addFriend', info);
+  }
+
+  session.unfriend = function(info) {
+    return $http.post('/unfriend', info);
+  }
+
+  session.getall = function(info) {
+    return $http.get('/all');
+  }
+
+  session.search = function(info) {
+    return $http.get('/search', {'params': {'search': info}} );
+  }
+
   return session;
 
 }])

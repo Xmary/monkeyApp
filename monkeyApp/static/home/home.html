@@ -43,12 +43,14 @@
          
             <!-- Species -->
             <div class="form-group">
-              <span  class="nullable">
+              <span  class="nullable selectParent">
                 <select ng-model="addmonkey.species" name="species" class="form-control"
                   ng-options="item.id as item.name for item in species">
                 </select>
               </span>
             </div>
+
+            <br/>
 
             <input type="submit" name="addButton" class="btn btn-primary btn-block" value="Add new monkey"/>
 
@@ -77,7 +79,7 @@
 
       <!-- Search field for finding monkey -->
       <div class="panel-body">
-        Panel content
+        <search></search>
       </div>
     </div>
   </div>
@@ -91,7 +93,9 @@
 
       <!-- Link to Jungle page -->
       <div class="panel-body">
-        Panel content
+        <p>In the Jungle you can see all monkeys, their best friends and number of friends. </p>
+        <br/>
+        <a class="btn btn-primary btn-block" ui-sref='list' role="button">Go to jungle!</a>
       </div>
     </div>
   </div>

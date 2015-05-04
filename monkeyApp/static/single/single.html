@@ -1,119 +1,278 @@
 <div ng-controller="SingleCtrl">
-  <div>
-    Div for search field.
-    <hr/>
+  <!-- Search for monkey -row -->
+  <div class="row">
+    <div class="col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+      <search></search>
+    </div>
+  </div>
+  <hr/>
+
+  <!-- Not Found -error message if email not found -->
+  <div class="row">
+    <div class="container col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+      <div ng-show="notFound" class="alert alert-warning" role="alert">
+        Email {{email}} is not registered. Please check email again.
+      </div>
+    </div>
   </div>
 
-  <div ng-show="notFound" class="alert alert-warning" role="alert">
-    Email {{email}} is not registered. Please check email again.
+  <!-- Successfully deleted -message -->
+  <div class="row">
+    <div class="container col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+      <div ng-show="deleted" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        You have successfully deleted {{editmonkey.username}}.
+      </div>
+    </div>
   </div>
 
-  <div ng-show="deleted" class="alert alert-info alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    You have successfully deleted {{editmonkey.username}}.
-  </div>
-
+  <!-- Monkey profile -->
   <div name="profileEditing" ng-show="chosen">
-    <p>This is Single page with profile for monkey {{editmonkey.email}}</p>
+
+    <!-- Form header-->
+    <div class="row">
+      <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+        <h4>Profile for monkey {{editmonkey.email}}</h4>
+      </div>
+    </div>
+
+    <!-- Form body -->
     <div name="editingForm">
-        <!-- Alert, if error from backend -->
-        <div name="errorMessage" ng-show="addError" class="alert alert-danger" role="alert">
-          <!-- error message -->
-          {{errorMessage}}
-        </div>
-        <div name="infoMessage" ng-hide="uneditable" class="alert alert-info" role="alert">
-          You can edit all fields except email.
-        </div>
 
-        <div class="alert alert-success alert-dismissible" role="alert" ng-show="saved" name="successMessage">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          New profile of {{editmonkey.email}} is successfully stored.
-        </div>
-        <!-- Form for profile editing-->
-        <form name="editMonkeyForm" class="form-horizontal" ng-submit="change_monkey()" novalidate>
-
-          <!-- Username -->
-          <div class="form-group" ng-class="{'has-error':editMonkeyForm.name.$invalid && !editMonkeyForm.name.$pristine }">
-            <label for="editName" class="col-sm-2 col-md-2 control-label">Name</label>
-            <div class="col-sm-10 col-md-6">
-              <input type="text" ng-disabled="uneditable" class="form-control" name="name" id="editName" ng-model="editmonkey.username" ng-minlength="4" ng-maxlength="80" ng-required="true">
-              <p ng-show="editMonkeyForm.name.$invalid && !editMonkeyForm.name.$pristine" class="help-block">Name is missing, too short or too long. Username should be 4 - 80 characters long.</p>
-            </div>
-          </div>
-          
-          <!-- Email -->
-          <div class="form-group">
-            <label for="editEmail" class="col-sm-2 col-md-2 control-label">Email</label>
-            <div class="col-sm-10 col-md-6">
-              <input class="form-control" disabled name="email" id="editEmail" value="{{editmonkey.email}}">
-            </div>
-          </div>
-          
-          <!-- Age -->
-          <div class="form-group" ng-class="{'has-error':editMonkeyForm.age.$invalid && !editMonkeyForm.age.$pristine}">
-            <label for="editAge" class="col-sm-2 col-md-2 control-label">Age</label>
-            <div class="col-sm-10 col-md-6">
-              <input type="number" ng-disabled="uneditable" class="form-control" id="editAge" placeholder="Age" name="age" min="0" max="99" ng-model="editmonkey.age" ng-required>
-              <p ng-show="editMonkeyForm.age.$invalid && !editMonkeyForm.age.$pristine" class="help-block">Age is missing or is not a number.</p>
-            </div>
-          </div>
-       
-          <!-- Species -->
-          <div class="form-group">
-            <label for="editSpecies" class="col-sm-2 col-md-2 control-label">Species</label>
-            <div class="col-sm-10 col-md-6">
-              <span  class="nullable">
-                <select ng-model="editmonkey.species" name="species" ng-disabled="uneditable" class="form-control"
-                  ng-options="item.id as item.name for item in species" id="editSpecies">
-                </select>
-              </span>
-            </div>
-          </div>
-
-          <div class="row" ng-show="uneditable">
-            <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
-              <button type="button" name="startEditing" class="btn btn-primary" ng-click="start_editing()">Edit profile</button>
-            </div>
-          </div>
-
-          <div class="row" ng-hide="uneditable">
-            <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
-              <input type="submit" name="saveEdit" class="btn btn-primary" value="Save changes"/>
-              <button type="button" name="cancelEdit" class="btn btn-default" ng-click="cancel_editing()">Cancel</button>
-            </div>
-          </div>
-          
-
-        </form>
-      </div>
-      <!-- End of div, with form -->
-      
+      <!-- Alert, if error from backend addError-->
       <div class="row">
-        <hr/>
-        <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
-          <button type="button" name="deleteMonkey" class="btn btn-danger" ng-click="open_dialog()">Delete monkey</button>
+        <div class="container col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+          <div name="errorMessage" ng-show="addError" class="alert alert-danger" role="alert">
+            <!-- error message -->
+            {{errorMessage}}
+          </div>
         </div>
       </div>
 
-      <!-- Modal for delete-->
-      <div class="modal fade" id="deleteModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p>Are you sure, that you want to delete {{editmonkey.username}} with email {{editmonkey.email}}?</p>
+      <!-- Info message for user, when editable mode -->
+      <div class="row">
+        <div class="container col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+          <div name="infoMessage" ng-hide="uneditable" class="alert alert-info" role="alert">
+            You can edit all fields except email.
+          </div>
+        </div>
+      </div>
+
+      <!-- Successfully saved changes -message-->
+      <div class="row">
+        <div class="container col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+          <div class="alert alert-success alert-dismissible" role="alert" ng-show="saved" name="successMessage">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            New profile of {{editmonkey.email}} is successfully stored.
+          </div>
+        </div>
+      </div>
+
+      <!-- Form for profile editing-->
+      <form name="editMonkeyForm" class="form-horizontal" ng-submit="change_monkey()" novalidate>
+
+        <!-- Username -->
+        <div class="form-group" ng-class="{'has-error':editMonkeyForm.name.$invalid && !editMonkeyForm.name.$pristine }">
+          <label for="editName" class="col-sm-2 col-md-2 control-label">Name</label>
+          <div class="col-sm-10 col-md-6">
+            <input type="text" ng-disabled="uneditable" class="form-control" name="name" id="editName" ng-model="editmonkey.username" ng-minlength="4" ng-maxlength="80" ng-required="true">
+            <p ng-show="editMonkeyForm.name.$invalid && !editMonkeyForm.name.$pristine" class="help-block">Name is missing, too short or too long. Username should be 4 - 80 characters long.</p>
+          </div>
+        </div>
+      
+        <!-- Email -->
+        <div class="form-group">
+          <label for="editEmail" class="col-sm-2 col-md-2 control-label">Email</label>
+          <div class="col-sm-10 col-md-6">
+            <input class="form-control" disabled name="email" id="editEmail" value="{{editmonkey.email}}">
+          </div>
+        </div>
+      
+        <!-- Age -->
+        <div class="form-group" ng-class="{'has-error':editMonkeyForm.age.$invalid && !editMonkeyForm.age.$pristine}">
+          <label for="editAge" class="col-sm-2 col-md-2 control-label">Age</label>
+          <div class="col-sm-10 col-md-6">
+            <input type="number" ng-disabled="uneditable" class="form-control" id="editAge" placeholder="Age" name="age" min="0" max="99" ng-model="editmonkey.age" ng-required>
+            <p ng-show="editMonkeyForm.age.$invalid && !editMonkeyForm.age.$pristine" class="help-block">Age is missing or is not a number.</p>
+          </div>
+        </div>
+     
+        <!-- Species -->
+        <div class="form-group">
+          <label for="editSpecies" class="col-sm-2 col-md-2 control-label">Species</label>
+          <div class="col-sm-10 col-md-6">
+            <span  class="nullable" >
+              <select ng-model="editmonkey.species" name="species" ng-disabled="uneditable" class="form-control"
+          ng-options="item.id as item.name for item in species" id="editSpecies">
+              </select>
+            </span>
+          </div>
+        </div>
+
+        <!-- Start editing -button -->
+        <div class="row" ng-show="uneditable">
+          <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+            <button type="button" name="startEditing" class="btn btn-primary" ng-click="start_editing()">Edit profile</button>
+          </div>
+        </div>
+
+        <!-- Save and Cancel editing buttons -->
+        <div class="row" ng-hide="uneditable">
+          <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+            <input type="submit" name="saveEdit" class="btn btn-primary" value="Save changes"/>
+            <button type="button" name="cancelEdit" class="btn btn-default" ng-click="cancel_editing()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- End of div, with form -->
+    <hr/>
+
+    <!-- Friend editing -->
+    <div name="friendEditing">
+      <!-- Show friends button, friends hidden -->
+      <div ng-hide="showFriends" class="row">
+        <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+          <button class="btn btn-primary" ng-click="show_friends()">Show friends</button>
+        </div>
+      </div>
+
+      <!-- Friends shown -->
+      <div ng-show="showFriends">
+        <!-- Unfriend, add/remove bestfriend errors messages -->
+        <div class="row">
+          <div class="container col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+            <div ng-show="bestFriendError" class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              Something went wrong. Please try again. 
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-danger" ng-click="delete_monkey()">Delete</button>
+          </div>
+        </div>
+        <!-- Current best friend header -->
+        <div class="row">
+          <div class="col-sm-8 col-md-6 col-md-offset-2 col-sm-offset-2 col-xs-12">
+            <h4><i class="fa fa-user fa-3x"></i>&nbsp; {{bestFriendHeader}}</h4>
+          </div>
+        </div>
+        <!-- Current best friend -->
+        <div class="row" ng-hide="noBestfriend">
+          <div class="col-sm-8 col-md-6 col-md-offset-2 col-sm-offset-2 col-xs-12">
+            <a ui-sref="single({email: editmonkey.bestfriend_email})">{{best_name}}</a>
+            <button class="btn btn-danger btn-sm pull-right" role="button" ng-click="remove_best()">Remove best friend</button>
+          </div>
+        </div>
+        <hr/>
+        <!-- Current friends header -->
+        <div class="row">
+          <div class="col-sm-8 col-md-6 col-md-offset-2 col-sm-offset-2 col-xs-12">
+            <h4><i class="fa fa-users fa-3x"></i>&nbsp; {{friendsHeader}}</h4>
+          </div>
+        </div>
+
+        <!-- Current friends -->
+        <div class="col-sm-12 col-md-10 col-md-offset-1 col-xs-12" ng-repeat="friend in getFriends">
+          <div class="panel panel-default">
+            <div class="panel-body table-panel">
+              <table class="table table-condensed">
+                <tr>
+                  <td>
+                    <!-- TODO: image -->
+                    <img ng-src='{{friend.image}}' alt="species" height="28" width="28">
+                  </td>
+                  <td>
+                    <!-- TODO: container with info and unfriend buttons -->
+                    {{friend.username}}
+                  </td>
+                  <td>
+                    <a ui-sref="single({email: friend.email})">{{friend.email}}</a>
+                  </td>
+                  <td>
+                    {{friend.number_of_friends}} friend(s)
+                  </td>
+                  <td >
+                    <i class="fa fa-user fa-fw"></i><a ui-sref="single({email: friend.bestfriend_email})">{{friend.bestfriend_name}}</a>
+                  </td>
+                  <td>
+                    <button ng-hide="editmonkey.bestfriend_email" class="btn btn-success btn-sm pull-right" ng-click="add_best(friend.email)"><i class="fa fa-user-plus fa-fw"></i>&nbsp;Best friend</button>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger btn-sm pull-right" ng-click="unfriend(friend.email)"><i class="fa fa-user-times fa-fw"></i>&nbsp; Unfriend</button>
+                  </td>
+                </tr>
+            </table>
             </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
+          </div>
+        </div>
+
+        <!-- Add friends header -->
+        <div class="row">
+          <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+            <h4>{{addFriendHeader}}</h4>
+          </div>
+        </div>
+
+        <!-- Add friends -->
+        <div ng-hide="noFriendsAnymore" class="row">
+          <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+
+            <!-- Error message about adding friends -->
+            <div name="addFriendErrorMessage" ng-show="addFriendError" class="alert alert-danger" role="alert">
+              {{addFriendErrorMessage}}
+            </div>
+
+            <!-- Form for adding new friends -->
+            <form name="addFriendForm" class="" ng-submit="add_friend()" novalidate>
+              <!-- Friends -->
+              <div class="form-group">
+                <div class="col-md-9 col-sm-9">
+                  <span  class="nullable selectParent">
+                    <select ng-model="chosenMonkey" name="friend" class="form-control"
+                  ng-options="item.email for item in getUnFriends" id="chooseFriend">
+                      <option value="">-- Choose monkey --</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <input type="submit" name="addFriend" class="btn btn-primary" value="Add friend"/>
+            </form>
+          </div>
+        </div><!-- end of row -->
+
+      </div><!-- End of Friends shown-->
+
+    </div><!-- End of Friend editing-->
+    
+    <!-- Delete monkey button -->
+    <div class="row">
+      <hr/>
+      <div class="col-sm-10 col-md-6 col-md-offset-2 col-sm-offset-2">
+        <button type="button" name="deleteMonkey" class="btn btn-danger" ng-click="open_dialog()">Delete monkey</button>
+      </div>
+    </div>
+    <br/>
+
+    <!-- Modal for delete-->
+    <div class="modal fade" id="deleteModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p>Are you sure, that you want to delete {{editmonkey.username}} with email {{editmonkey.email}}?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" ng-click="delete_monkey()">Delete</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 
-  </div>
+  </div><!-- End of Monkey Profile -->
+
 </div>

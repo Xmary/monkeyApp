@@ -20,6 +20,7 @@ def test_get_one(client):
                          'email': 'list1@email.com',
                          'species': 1,
                          'bestfriend_email': None,
+                         'bestfriend_name': None,
                          'number_of_friends': 0
                          }]
 
