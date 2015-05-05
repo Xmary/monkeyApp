@@ -168,13 +168,13 @@ MonkeyApp.controller('SingleCtrl', [
       );
       
       if($scope.editmonkey.friends_emails.length == 0) {
-        $scope.friendsHeader = 'You have not currently friends.';
+        $scope.friendsHeader = 'You have not friends.';
       }
       else {
         $scope.friendsHeader = 'Friends: ';
       }
       if($scope.editmonkey.bestfriend_email == undefined || $scope.editmonkey.bestfriend_email == '') {
-        $scope.bestFriendHeader = 'You have not currently bestfriend.'
+        $scope.bestFriendHeader = 'You have not bestfriend.'
         $scope.noBestfriend = true;
       }
       else {
@@ -208,7 +208,13 @@ MonkeyApp.controller('SingleCtrl', [
     $scope.add_best = function(email) {
       $scope.editmonkey.bestfriend_email = email;
       MonkeyService.changemonkey($scope.editmonkey).then(function (response) {
-        $scope.show_friends();
+        $scope.bestFriendHeader = 'Bestfriend: ';
+        MonkeyService.getmonkey($scope.editmonkey.bestfriend_email).then(function (response) {
+          $scope.best_name = response.data.username;
+        }, function (response) {
+          $scope.bestFriendError = true;
+        });
+        $scope.noBestfriend = false;
       }, function (response) {
         $scope.bestFriendError = true;
       });
@@ -217,7 +223,8 @@ MonkeyApp.controller('SingleCtrl', [
     $scope.remove_best = function() {
       $scope.editmonkey.bestfriend_email = '';
       MonkeyService.changemonkey($scope.editmonkey).then(function (response) {
-        $scope.show_friends();
+        $scope.bestFriendHeader = 'You have not bestfriend.'
+        $scope.noBestfriend = true;
       }, function (response) {
         $scope.bestFriendError = true;
       });
@@ -227,12 +234,23 @@ MonkeyApp.controller('SingleCtrl', [
       info = {'email': $scope.editmonkey.email,
               'friend_email': email};
       MonkeyService.unfriend(info).then(function (response) {
+        if($scope.editmonkey.bestfriend_email !== null && $scope.editmonkey.bestfriend_email == email) {
+          $scope.editmonkey.bestfriend_email = '';
+            MonkeyService.changemonkey($scope.editmonkey).then(function (response) {
+            }, function (response) {
+              $scope.bestFriendError = true;
+            });
+        }
         $scope.editmonkey.friends_emails = _.without($scope.editmonkey.friends_emails, email);
         $scope.show_friends();
       }, function (response) {
         $scope.bestFriendError = true;
       });
     };
+
+    $scope.hide_friends = function() {
+      $scope.showFriends = false;
+    }
 
     $scope.open_dialog = function() {
       $('#deleteModal').modal('show');

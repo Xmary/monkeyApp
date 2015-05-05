@@ -3,8 +3,8 @@ MonkeyApp.directive('search', [ function() {
         restrict: 'E',
         template:   '<div class="" > \
                         <form class="{{currentForm}}" name="searchMonkeyForm" ng-submit="search()"  novalidate> \
-                            <div class="form-group" ng-class="{\'has-warning\':searchMonkeyForm.search.$invalid && !addMonkeyForm.search.$pristine }"> \
-                                <input type="text" class="form-control" placeholder="Monkey email or name" name="search" ng-model="query" ng-minlength="3"> \
+                            <div class="form-group" ng-class="{\'has-warning\':searchMonkeyForm.search.$invalid && !searchMonkeyForm.search.$pristine }"> \
+                                <input type="text" class="form-control" placeholder="Monkey email or name" name="search" ng-model="query" ng-model-options="{updateOn: \'blur\'}" ng-minlength="3" ng-required="true"> \
                                 <p ng-show="searchMonkeyForm.search.$invalid && !searchMonkeyForm.search.$pristine" class="help-block">Query should be at least 3 characters long.</p> \
                             </div> \
                             <input type="submit" name="searchButton" class="btn btn-primary {{currentButton}}" value="Search"/> \
@@ -51,7 +51,6 @@ MonkeyApp.controller('SearchCtrl', [
                 MonkeyService.search($scope.query).then(function (response) {
                     $scope.foundMonkeys = response.data;
                     $scope.results = true;
-                    $scope.query = '';
                 }, function (response) {
                     if(response.data !== undefined && response.data.message == 'No results.') {
                         $scope.noResultsMessage = 'Monkey with ' + $scope.searched + ' name or email not found.'

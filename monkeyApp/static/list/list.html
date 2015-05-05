@@ -11,43 +11,48 @@
     </div>
   </div>
 
-  <!-- Ordering buttons -->
 
-  <div class="row">
-    <label for="choosePredicate" class="col-sm-2 col-md-2 control-label">Order by: </label>
-    <div class="col-sm-10 col-md-6">
-      <select ng-model="predicate" id="choosePredicate">
-        <option value="-username">Monkey name</option>
-        <option value="-bestfriend_name">Name of best friend</option>
-        <option value="-number_of_friends">Number of friends</option>
-      </select>
-    </div>
-  </div>
 
   <!-- List of monkeys -->
-  <div class="col-sm-12 col-md-10 col-md-offset-1 col-xs-12" ng-repeat="monkey in listAll | orderBy: predicate:reverse">
-          <div class="panel panel-default">
-            <div class="panel-body table-panel">
-              <table class="table table-condensed" >
-                <tr>
-                  <td>
-                    <img ng-src='{{monkey.image}}' alt="species" height="28" width="28">
-                  </td>
-                  <td>
-                    {{monkey.username}}
-                  </td>
-                  <td>
-                    <a ui-sref="single({email: monkey.email})">{{monkey.email}}</a>
-                  </td>
-                  <td>
-                    {{monkey.number_of_friends}} friend(s)
-                  </td>
-                  <td >
-                    <i class="fa fa-user fa-fw"></i><a ui-sref="single({email: monkey.bestfriend_email})">{{monkey.bestfriend_name}}</a>
-                  </td>
-                </tr>
-            </table>
-            </div>
-          </div>
-        </div>
+  <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+    <table class="table">
+      <tr>
+        <th>Species</th>
+        <th>Name &nbsp;
+          <a href="" ng-click="reverse=false; order('username', false)"><i class="fa fa-arrow-circle-down"></i></a>&nbsp;
+          <a href="" ng-click="order('-username',false)"><i class="fa fa-arrow-circle-up"></i></a>
+        </th>
+
+        <th>Friends &nbsp;
+          <a href="" ng-click="order('-number_of_friends',false)"><i class="fa fa-arrow-circle-down"></i></a>&nbsp;
+          <a href="" ng-click="reverse=false;order('number_of_friends', false)"><i class="fa fa-arrow-circle-up"></i></a>
+        </th>
+
+        <th>Best friend &nbsp;
+          <a href="" ng-click="reverse=false; order('bestfriend_name', false)"><i class="fa fa-arrow-circle-down"></i></a>&nbsp;
+          <a href="" ng-click="order('-bestfriend_name',false)"><i class="fa fa-arrow-circle-up"></i></a>
+        </th>
+      </tr>
+      <tr ng-repeat="monkey in filteredMonkeys">
+        <td>
+          <img ng-src='{{monkey.image}}' alt="species" height="28" width="28">
+        </td>
+        <td>
+          <a ui-sref="single({email: monkey.email})">{{monkey.username}}</a>
+        </td>
+        <td>
+          {{monkey.number_of_friends}} friend(s)
+        </td>
+        <td >
+          <a ui-sref="single({email: monkey.bestfriend_email})">{{monkey.bestfriend_name}}</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-md-6 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12 col-xs-offset-1">
+    <pagination ng-model="currentPage" total-items="totalItems" items-per-page="numPerPage" max-size="maxSize" boundary-links="true">
+    </pagination>
+  </div>
 </div>
+

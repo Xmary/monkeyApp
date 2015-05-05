@@ -41,50 +41,33 @@ body > .container {
   padding-top: 11px;
 }
 
-/*
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
-
-.selectParent{
-    width:100%;
-    overflow:hidden;
-}
-
-.selectParent select{
-    width:100%;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding: 2px 2px 2px 2px;
-    background: transparent url("../static/images/caret_down.svg") no-repeat;
-    background-position: 98%, 50%;
-}
-*/
 .table th, .table td { 
-     border-top: none !important; 
+  border-top: none !important; 
  }
 
  .table-panel {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
  }
 
  .table-panel > table {
-      padding-bottom: 0px;
-      margin-bottom: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
  }
 
  .fa-user {
-      color: #FF7400;
+  color: #FF7400;
  }
 
  .fa-users {
-      color: #446e9b;
+  color: #446e9b;
  }
+ .best-friend {
+  display:inline; 
+  padding-top:30px;
+ }
+
+ .nav, .pagination, .carousel, .panel-title a { 
+  cursor: pointer; 
+}

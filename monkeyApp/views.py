@@ -167,6 +167,15 @@ def unfriend():
             monkey.friends.remove(friend)
         if found_friend is True:
             friend.friends.remove(monkey)
+        if (monkey.bestfriend_id is not None
+           and monkey.bestfriend.email == friend.email):
+                monkey.bestfriend_id = None
+                monkey.bestfriend_email = None
+        if (friend.bestfriend_id is not None and
+           friend.bestfriend.email == monkey.email):
+                friend.bestfriend_id = None
+                friend.bestfriend_email = None
+
         db.session.commit()
         return '', 200
 

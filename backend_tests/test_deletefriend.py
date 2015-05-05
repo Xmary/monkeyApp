@@ -134,3 +134,42 @@ def test_unfriend_friend_list(client):
     assert res.status_code == 200
     assert res.data == b''
     assert friend_list == []
+
+
+# checks, if server remove the friend from monkey list and from bestfriend
+
+def test_unfriend_monkey_list_bestfriend(client):
+    friend = Monkey(
+        username='Monkey12Friend',
+        email='monkey12@friend.com',
+        age=2,
+        species=2,
+        bestfriend=None,
+        friends=[]
+    )
+    db.session.add(friend)
+
+    monkey = Monkey(
+        username='Monkey13Friend',
+        email='monkey13@friend.com',
+        age=1,
+        species=1,
+        bestfriend=friend,
+        friends=[friend]
+    )
+    db.session.add(monkey)
+    db.session.flush()
+    monkey_a = Monkey.query.filter_by(email='monkey13@friend.com').first()
+    a_friend = Monkey.query.filter_by(email='monkey12@friend.com').first()
+    assert monkey_a.friends == [a_friend]
+    assert monkey_a.bestfriend == a_friend
+    res = client.post(url_for('unfriend'),
+                      data=json.dumps({'email': 'monkey13@friend.com',
+                                       'friend_email': 'monkey12@friend.com'}),
+                      content_type='application/json')
+
+    monkey_b = Monkey.query.filter_by(email='monkey13@friend.com').first()
+    assert res.status_code == 200
+    assert res.data == b''
+    assert monkey_b.friends == []
+    assert monkey_b.bestfriend is None

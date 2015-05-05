@@ -7,6 +7,7 @@ module.exports = function(config){
       'static/bower_components/angular/angular.js',
       'static/bower_components/angular-ui-router/release/angular-ui-router.js',
       'static/bower_components/angular-mocks/angular-mocks.js',
+      'static/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'static/app.js',
       'static/components/**/*.js',
       'static/home/*.js',

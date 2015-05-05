@@ -1,7 +1,8 @@
 'use strict';
 
 var MonkeyApp = angular.module('MonkeyApp', [
-  'ui.router'
+  'ui.router',
+  'ui.bootstrap'
 ])
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
